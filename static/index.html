@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HAPPY 31st BIRTHDAY JÜRGEN — Ultimate Dank Page</title>
+<style>
+  :root{
+    --accent1:#ff2d95;
+    --accent2:#00ffd5;
+    --neon:#f9ff00;
+    --bg1:#0f0c29;
+    --bg2:#302b63;
+    --glass: rgba(255,255,255,0.04);
+  }
+  html,body{height:100%;margin:0;background:#000;font-family:Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;color:#fff;overflow:auto;}
+  /* Stage fills viewport but can grow taller to allow scrolling */
+  .stage{
+    position:relative;
+    width:100vw;
+    min-height:100vh;
+    margin:0 auto;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(255,45,149,0.06), transparent 10%),
+                linear-gradient(120deg, var(--bg1), var(--bg2));
+    overflow:visible;
+    padding-bottom:140px; /* spare space at bottom for scrolling */
+  }
+
+  /* Top nav */
+  nav{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    top:10px;
+    width:calc(100vw - 40px);
+    max-width:1200px;
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 18px;
+    z-index:9999;
+    pointer-events:auto;
+    backdrop-filter: blur(6px);
+    border-radius:8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .logo{
+    font-weight:900;
+    letter-spacing:1px;
+    color:var(--neon);
+    text-shadow: 0 0 8px rgba(249,255,0,0.6), 0 0 24px rgba(255,45,149,0.08);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family: "Comic Sans MS", "Marker Felt", fantasy;
+    pointer-events:auto;
+  }
+  .logo .spark{font-size:20px; transform:rotate(-12deg);}
+  .navlinks{display:flex;gap:12px;align-items:center;}
+  .navlinks a{
+    color:#fff;text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:700;font-size:13px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);transition:transform .18s ease, box-shadow .18s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.5);
+  }
+  .navlinks a:hover{transform:translateY(-4px) rotate(-1deg) scale(1.02);color:var(--accent1);text-shadow:0 0 8px rgba(255,45,149,0.6);}
+  .fake-btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001;padding:8px 14px;border-radius:999px;font-weight:900;cursor:pointer;border:2px solid rgba(255,255,255,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.6);}
+
+  /* Main grid to avoid overlaps and allow vertical growth */
+  .container{
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+    top:86px;
+    width:calc(100vw - 80px);
+    max-width:1200px;
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    grid-template-rows: auto 1fr;
+    gap:20px;
+    align-items:start;
+    z-index:10;
+    pointer-events:none;
+    margin-bottom:40px; /* extra spare space */
+  }
+
+  /* Left column: hero and wishes stacked */
+  .left{
+    grid-column:1 / 2;
+    grid-row:1 / 3;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    pointer-events:none;
+  }
+  .hero{
+    pointer-events:auto;
+    padding:28px;
+    border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    gap:12px;
+  }
+  .headline{
+    font-size:clamp(36px,6vw,84px);
+    line-height:0.9;font-weight:900;letter-spacing:-2px;text-transform:uppercase;
+    background: linear-gradient(90deg, #fff, #ffd1ff 30%, #00ffd5 60%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));transform: skewX(-6deg);
+    animation:glow 2.6s ease-in-out infinite alternate;
+  }
+  @keyframes glow{from{text-shadow:0 0 8px rgba(255,45,149,0.6),0 0 40px rgba(0,255,213,0.08);}to{text-shadow:0 0 18px rgba(249,255,0,0.9),0 0 80px rgba(255,45,149,0.18);}}
+  .sub{font-size:clamp(12px,1.6vw,20px);font-weight:800;color:#fff;text-shadow:0 6px 18px rgba(0,0,0,0.6);}
+
+  .glitch{position:relative;display:inline-block;color:#fff;font-weight:900;font-size:clamp(28px,4.6vw,96px);letter-spacing:-3px;transform:translateY(6px);pointer-events:none;}
+  .glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;overflow:hidden;clip:rect(0,900px,0,0);}
+  .glitch::before{left:2px;text-shadow:-6px 0 var(--accent1);animation:glitchTop 2.2s infinite linear alternate-reverse;color:rgba(255,255,255,0.95);}
+  .glitch::after{left:-2px;text-shadow:-2px 0 var(--accent2);animation:glitchBot 2.6s infinite linear alternate;color:rgba(255,255,255,0.9);}
+  @keyframes glitchTop{0%{clip:rect(0,9999px,0,0);transform:translate(0,0);}10%{clip:rect(0,9999px,40px,0);transform:translate(-2px,-2px);}20%{clip:rect(10px,9999px,60px,0);transform:translate(2px,1px);}30%{clip:rect(0,9999px,20px,0);transform:translate(-1px,2px);}100%{clip:rect(0,9999px,9999px,0);transform:translate(0,0);}}
+  @keyframes glitchBot{0%{clip:rect(0,9999px,0,0);transform:translate(0,0);}15%{clip:rect(30px,9999px,80px,0);transform:translate(3px,-1px);}40%{clip:rect(0,9999px,40px,0);transform:translate(-3px,2px);}100%{clip:rect(0,9999px,9999px,0);transform:translate(0,0);}}
+
+  .hero .controls{display:flex;gap:12px;align-items:center;pointer-events:auto;}
+  .hero .tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap;pointer-events:none;}
+  .hero .tag{display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:800;}
+
+  .wishes{
+    pointer-events:auto;
+    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);overflow:auto;
+    min-height:140px;
+  }
+  .wish{display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:8px;margin-bottom:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02);}
+
+  /* Right column: stats and boss stacked */
+  .right{
+    grid-column:2 / 3;
+    grid-row:1 / 3;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    align-items:stretch;
+    pointer-events:none;
+  }
+  .stats{
+    pointer-events:auto;
+    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);min-height:180px;
+  }
+  .stat-item{display:flex;align-items:center;gap:12px;padding:10px;margin:8px 0;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.03);}
+  .stat-badge{width:64px;height:64px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;background:linear-gradient(135deg,var(--accent1),#ffd1ff);color:#001;box-shadow:0 8px 24px rgba(255,45,149,0.12);transform:rotate(-8deg);}
+  .stat-text{font-weight:800;font-size:14px;}
+  .stat-num{font-size:20px;color:var(--neon);font-weight:900;letter-spacing:1px;}
+
+  .boss{
+    pointer-events:auto;
+    padding:18px;border-radius:16px;background:linear-gradient(135deg, rgba(255,45,149,0.06), rgba(0,255,213,0.03));
+    border:2px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-height:220px;
+  }
+  .boss .arena{width:92%;height:60%;border-radius:12px;background:linear-gradient(180deg,#000,#111);border:2px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .boss .boss-entity{width:48%;height:72%;min-width:120px;min-height:120px;border-radius:12px;background:conic-gradient(from 120deg,#ff2d95,#ffd100,#00ffd5,#7b2dff);animation:bossPulse 1.6s infinite ease-in-out;display:flex;align-items:center;justify-content:center;font-weight:900;color:#001;font-size:clamp(16px,2.6vw,28px);box-shadow:0 12px 40px rgba(255,45,149,0.18);}
+  @keyframes bossPulse{0%{transform:scale(0.92) rotate(-6deg);}50%{transform:scale(1.06) rotate(6deg);}100%{transform:scale(0.92) rotate(-6deg);}}
+
+  /* Decorative elements (non-interfering) */
+  .decor{position:absolute;pointer-events:none;z-index:2;opacity:0.9;}
+  .pixel{position:absolute;width:28px;height:28px;background:transparent;z-index:2;pointer-events:none;}
+  .pixel.px1{left:8%;top:6%;box-shadow:0 0 0 0 #ff2d95, 28px 0 0 0 #ffd100, 56px 0 0 0 #00ffd5, 0 28px 0 0 #7b2dff, 28px 28px 0 0 #fff;}
+  .pixel.px2{left:78%;top:18%;box-shadow:0 0 0 0 #ffd100, 28px 0 0 0 #ff2d95, 56px 0 0 0 #ffd100, 0 28px 0 0 #00ffd5, 28px 28px 0 0 #7b2dff;}
+  .pixel.px3{left:6%;top:72%;box-shadow:0 0 0 0 #00ffd5, 28px 0 0 0 #00ffd5, 56px 0 0 0 #ffd100, 0 28px 0 0 #ff2d95, 28px 28px 0 0 #fff;}
+
+  .sticker{position:absolute;font-size:22px;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);color:#fff;transform:rotate(-6deg);z-index:3;pointer-events:none;}
+  .ribbon{position:absolute;width:42vw;height:12vh;background:linear-gradient(90deg, rgba(255,45,149,0.12), rgba(0,255,213,0.08));transform:skewX(-18deg);border-radius:8px;z-index:1;filter: blur(0.6px);opacity:0.9;pointer-events:none;}
+  .r1{left:-8vw;top:28vh;transform:rotate(-12deg) skewX(-18deg);animation:slide1 8s linear infinite;}
+  .r2{right:-12vw;top:52vh;transform:rotate(8deg) skewX(-12deg);animation:slide2 10s linear infinite;}
+  @keyframes slide1{0%{transform:translateX(0) rotate(-12deg) skewX(-18deg);}50%{transform:translateX(2vw) rotate(-10deg) skewX(-18deg);}100%{transform:translateX(0) rotate(-12deg) skewX(-18deg);}}
+  @keyframes slide2{0%{transform:translateX(0) rotate(8deg) skewX(-12deg);}50%{transform:translateX(-2.2vw) rotate(10deg) skewX(-12deg);}100%{transform:translateX(0) rotate(8deg) skewX(-12deg);}}
+
+  /* Confetti canvas overlay */
+  canvas#confetti{position:fixed;left:0;top:0;width:100%;height:100%;z-index:4;pointer-events:none;}
+  canvas#grain{position:fixed;left:0;top:0;width:100%;height:100%;z-index:1;opacity:0.06;pointer-events:none;}
+
+  /* Tooltips */
+  .tip{position:relative;display:inline-block;cursor:help;pointer-events:auto;}
+  .tip:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 10px);background:rgba(0,0,0,0.9);color:#fff;padding:8px 10px;border-radius:8px;font-size:12px;white-space:nowrap;z-index:9999;box-shadow:0 8px 30px rgba(0,0,0,0.6);}
+
+  /* Scrollbar for wishes */
+  .wishes::-webkit-scrollbar{height:8px;width:8px;}
+  .wishes::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:8px;}
+
+  /* Ensure interactive elements show pointer */
+  button, .fake-btn, .tip, nav a {pointer-events:auto;}
+
+  /* Responsive adjustments for narrow viewports */
+  @media (max-width:980px){
+    .container{grid-template-columns: 1fr;grid-template-rows:auto auto auto;gap:14px;top:76px;}
+    .right{grid-column:1 / 2;grid-row:2 / 3;flex-direction:column;}
+    .left{grid-column:1 / 2;grid-row:1 / 2;}
+    .hero{min-height:220px;}
+    .boss{min-height:200px;}
+    .wishes{height:180px;}
+  }
+</style>
+</head>
+<body>
+  <div class="stage" id="stage" role="main" aria-label="Birthday stage for Jürgen">
+    <nav>
+      <div class="logo"><span class="spark">✨</span> JÜRGEN 31</div>
+      <div class="navlinks">
+        <a href="#hero" data-target="hero">Hero</a>
+        <a href="#stats" data-target="stats">Stats</a>
+        <a href="#wishes" data-target="wishes">Wishes</a>
+        <a href="#boss" data-target="boss">Final Boss</a>
+        <button class="fake-btn tip" data-tip="Totally fake, very dramatic" id="surpriseBtn">UNLEASH</button>
+      </div>
+    </nav>
+
+    <!-- Decorative non-interfering elements -->
+    <div class="ribbon r1 decor"></div>
+    <div class="ribbon r2 decor"></div>
+    <div class="pixel px1 decor"></div>
+    <div class="pixel px2 decor"></div>
+    <div class="pixel px3 decor"></div>
+    <div class="sticker decor" style="left:72%;top:8%;">💾 Retro Save</div>
+    <div class="sticker decor" style="left:52%;top:4%;">🔥 31 Years Hot</div>
+    <div class="sticker decor" style="left:86%;top:68%;">🍺 Cheers!</div>
+
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <canvas id="grain" aria-hidden="true"></canvas>
+
+    <div class="container" id="container">
+      <div class="left">
+        <section class="hero" id="hero" tabindex="0" aria-label="Hero section">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="headline">HAPPY</div>
+            <div class="glitch" data-text="31st BIRTHDAY JÜRGEN">31st BIRTHDAY JÜRGEN</div>
+            <div class="sub">A cosmic, chaotic, and utterly legendary celebration for the one and only <strong style="color:var(--accent1);">Jürgen</strong>.</div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px;">
+            <div style="background:linear-gradient(90deg,#fff,#ffd1ff);padding:12px;border-radius:12px;font-weight:900;color:#001;box-shadow:0 12px 40px rgba(255,45,149,0.12);min-width:64px;text-align:center;">31</div>
+            <div style="font-weight:900;color:#fff;font-size:14px;">Years of pure legend</div>
+          </div>
+
+          <div class="controls" style="margin-top:12px;">
+            <button class="fake-btn" id="memeBtn">Press for Meme</button>
+            <div class="tip" data-tip="Totally serious stat">💯 <span style="font-weight:800;color:#fff;margin-left:6px;">Certified Dankness</span></div>
+            <div class="tip" data-tip="This is a fake progress bar">⚡ <span style="font-weight:800;color:#fff;margin-left:6px;">Energy: 9000+</span></div>
+          </div>
+
+          <div class="tags" style="margin-top:12px;">
+            <span class="tag">Legendary</span>
+            <span class="tag">Meme Lord</span>
+            <span class="tag">Pixel Pioneer</span>
+          </div>
+        </section>
+
+        <section class="wishes" id="wishes" tabindex="0" aria-label="Birthday wishes">
+          <div style="font-weight:900;font-size:16px;margin-bottom:8px;">Birthday Wishes & Messages</div>
+          <div class="wish"><div class="emoji">🎉</div><div class="text">May your 31st be louder than your playlist and brighter than your monitor. Cheers, Jürgen!</div></div>
+          <div class="wish"><div class="emoji">🕹️</div><div class="text">Level 31 unlocked: +10 charisma, +999 meme power. Keep fragging life.</div></div>
+          <div class="wish"><div class="emoji">🌭</div><div class="text">Eat the cake like it's a rare drop. You deserve legendary loot today.</div></div>
+          <div class="wish"><div class="emoji">🚀</div><div class="text">To infinity and beyond — but first, more confetti.</div></div>
+          <div class="wish"><div class="emoji">💾</div><div class="text">Saved game: Jürgen_31.sav — do not overwrite.</div></div>
+          <div class="wish"><div class="emoji">✨</div><div class="text">May your pixels always align and your coffee never go cold.</div></div>
+        </section>
+      </div>
+
+      <div class="right">
+        <aside class="stats" id="stats" tabindex="0" aria-label="Achievements">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-weight:900;font-size:18px;">Achievements</div>
+            <div style="font-size:12px;color:#fff;opacity:0.8;">Certified by the Dank Council</div>
+          </div>
+
+          <div class="stat-item" style="margin-top:12px;">
+            <div class="stat-badge">31</div>
+            <div>
+              <div class="stat-text">Years of pure legend</div>
+              <div class="stat-num">31 / ∞</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-badge">🔥</div>
+            <div>
+              <div class="stat-text">Dankness Index</div>
+              <div class="stat-num">9999%</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-badge">🎮</div>
+            <div>
+              <div class="stat-text">Bosses Defeated</div>
+              <div class="stat-num">42</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-badge">🍺</div>
+            <div>
+              <div class="stat-text">Beers Consumed (est.)</div>
+              <div class="stat-num">∞</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;font-size:12px;color:#fff;opacity:0.9;">
+            <strong>Note:</strong> Stats are approximate and intentionally exaggerated for maximum hype.
+          </div>
+        </aside>
+
+        <section class="boss" id="boss" tabindex="0" aria-label="Final boss of dankness">
+          <div style="font-weight:900;font-size:18px;margin-bottom:8px;">FINAL BOSS — ULTIMATE DANKNESS</div>
+          <div class="arena" id="arena" aria-hidden="false">
+            <div class="boss-entity" id="bossEntity">JÜRGEN</div>
+          </div>
+          <div style="margin-top:12px;font-weight:900;color:#fff;">Defeat the boss by clicking the UNLEASH button</div>
+        </section>
+      </div>
+    </div>
+
+    <!-- bottom spacer to ensure spare space when content is tall -->
+    <div style="height:120px;pointer-events:none;"></div>
+  </div>
+
+<script>
+  // Fit canvases to viewport with DPR handling
+  function fitCanvas(id){
+    const c = document.getElementById(id);
+    if(!c) return null;
+    const dpr = window.devicePixelRatio || 1;
+    const w = Math.max(300, Math.floor(window.innerWidth));
+    const h = Math.max(200, Math.floor(window.innerHeight));
+    c.width = w * dpr;
+    c.height = h * dpr;
+    c.style.width = w + 'px';
+    c.style.height = h + 'px';
+    const ctx = c.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return ctx;
+  }
+
+  // Confetti animation (responsive)
+  (function(){
+    const canvas = document.getElementById('confetti');
+    let ctx = fitCanvas('confetti');
+    let pieces = [];
+    const colors = ['#ff2d95','#ffd100','#00ffd5','#7b2dff','#ffffff','#00ff88'];
+    function rand(min,max){return Math.random()*(max-min)+min;}
+    function makePiece(){
+      return {
+        x: rand(0,window.innerWidth),
+        y: rand(-window.innerHeight,0),
+        vx: rand(-0.6,0.6),
+        vy: rand(1,4),
+        size: Math.floor(rand(6,18)),
+        color: colors[Math.floor(rand(0,colors.length))],
+        rot: rand(0,360),
+        vr: rand(-6,6),
+        shape: Math.random()>0.6? 'rect':'circle'
+      };
+    }
+    function init(){
+      pieces = [];
+      const count = Math.max(80, Math.floor((window.innerWidth*window.innerHeight)/8000));
+      for(let i=0;i<count;i++) pieces.push(makePiece());
+    }
+    init();
+    function update(){
+      ctx = fitCanvas('confetti');
+      if(!ctx) return;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let p of pieces){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rot*Math.PI/180);
+        ctx.fillStyle = p.color;
+        if(p.shape==='rect'){
+          ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0,0,p.size/2,0,Math.PI*2);
+          ctx.fill();
+        }
+        ctx.restore();
+        if(p.y>window.innerHeight+40){ Object.assign(p, makePiece()); p.y = rand(-200,-40); }
+      }
+      requestAnimationFrame(update);
+    }
+    update();
+    window.addEventListener('resize', ()=>{
+      fitCanvas('confetti');
+      init();
+    });
+  })();
+
+  // Grain noise (subtle)
+  (function(){
+    const canvas = document.getElementById('grain');
+    const ctx = fitCanvas('grain');
+    function noise(){
+      const ctx2 = fitCanvas('grain');
+      if(!ctx2) return;
+      ctx2.clearRect(0,0,canvas.width,canvas.height);
+      for(let i=0;i<800;i++){
+        ctx2.fillStyle = 'rgba(255,255,255,' + (Math.random()*0.06) + ')';
+        ctx2.fillRect(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 1,1);
+      }
+      requestAnimationFrame(noise);
+    }
+    noise();
+    window.addEventListener('resize', ()=> fitCanvas('grain'));
+  })();
+
+  // Floating decorative stickers (non-blocking)
+  (function(){
+    const icons = ['💥','💾','👑','🍻','🧩','⚡','🕹️','🌈','🤘','🧨'];
+    function spawn(){
+      const el = document.createElement('div');
+      el.className = 'sticker';
+      el.style.left = Math.random()*(window.innerWidth-120) + 'px';
+      el.style.top = Math.random()*(window.innerHeight-120) + 'px';
+      el.style.opacity = 0.9;
+      el.style.fontSize = (12 + Math.random()*28) + 'px';
+      el.style.transform = 'rotate(' + (Math.random()*40-20) + 'deg)';
+      el.style.pointerEvents = 'none';
+      el.textContent = icons[Math.floor(Math.random()*icons.length)];
+      document.body.appendChild(el);
+      const dur = 6000 + Math.random()*8000;
+      el.animate([{transform:el.style.transform, opacity:0.95},{transform:'translateY(-120px) rotate(0deg) scale(0.6)', opacity:0}], {duration:dur, easing:'cubic-bezier(.2,.8,.2,1)'});
+      setTimeout(()=>el.remove(), dur);
+    }
+    setInterval(spawn, 900);
+    for(let i=0;i<6;i++) setTimeout(spawn, i*120);
+  })();
+
+  // Smooth scrolling for nav links
+  document.querySelectorAll('nav a[data-target]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const id = a.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if(el){
+        el.scrollIntoView({behavior:'smooth', block:'center'});
+        el.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:420, easing:'ease-out'});
+      }
+    });
+  });
+
+  // Boss interactions
+  (function(){
+    const boss = document.getElementById('bossEntity');
+    const unleash = document.getElementById('surpriseBtn');
+    const memeBtn = document.getElementById('memeBtn');
+    let unleashed = false;
+    function colorCycle(){
+      const t = Date.now()/200;
+      const r = Math.floor(128 + 127*Math.sin(t));
+      const g = Math.floor(128 + 127*Math.sin(t+2));
+      const b = Math.floor(128 + 127*Math.sin(t+4));
+      boss.style.background = `radial-gradient(circle at 30% 30%, rgba(${r},${g},${b},0.95), rgba(${255-r},${255-g},${255-b},0.6))`;
+      requestAnimationFrame(colorCycle);
+    }
+    colorCycle();
+
+    function burst(x,y){
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      const pieces = [];
+      for(let i=0;i<60;i++){
+        pieces.push({
+          x:x, y:y,
+          vx:(Math.random()-0.5)*10,
+          vy:(Math.random()-0.8)*10,
+          life: 40 + Math.random()*40,
+          size: 4 + Math.random()*8,
+          color: ['#ff2d95','#ffd100','#00ffd5','#7b2dff'][Math.floor(Math.random()*4)]
+        });
+      }
+      let t = 0;
+      function step(){
+        t++;
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for(let p of pieces){
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.4;
+          p.life--;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        }
+        ctx.restore();
+        if(t<100) requestAnimationFrame(step);
+      }
+      step();
+    }
+
+    unleash.addEventListener('click', ()=>{
+      if(unleashed) return;
+      unleashed = true;
+      document.querySelectorAll('.fake-btn').forEach(s=>s.animate([{transform:'scale(1)'},{transform:'scale(1.12) rotate(8deg)'},{transform:'scale(1)'}],{duration:900,iterations:3}));
+      boss.animate([{transform:'scale(1)'},{transform:'scale(1.6) rotate(12deg)'},{transform:'scale(1)'}],{duration:900, easing:'cubic-bezier(.2,.8,.2,1)'});
+      burst(window.innerWidth/2, window.innerHeight/2);
+      const overlay = document.createElement('div');
+      overlay.style.position='fixed';
+      overlay.style.left='50%';
+      overlay.style.top='50%';
+      overlay.style.transform='translate(-50%,-50%)';
+      overlay.style.padding='18px 28px';
+      overlay.style.background='linear-gradient(90deg,#ff2d95,#00ffd5)';
+      overlay.style.color='#001';
+      overlay.style.fontWeight='900';
+      overlay.style.borderRadius='12px';
+      overlay.style.zIndex=99999;
+      overlay.textContent = 'UNLEASHED: ULTIMATE DANKNESS ACTIVATED';
+      document.body.appendChild(overlay);
+      setTimeout(()=>overlay.remove(), 4200);
+    });
+
+    memeBtn.addEventListener('click', ()=>{
+      const hero = document.querySelector('.hero');
+      hero.animate([{filter:'hue-rotate(0deg)'},{filter:'hue-rotate(180deg)'},{filter:'hue-rotate(0deg)'}],{duration:1200,iterations:2});
+      const s = document.createElement('div');
+      s.className='sticker';
+      s.style.left=(window.innerWidth*0.42)+'px'; s.style.top=(window.innerHeight*0.28)+'px'; s.style.fontSize='36px';
+      s.textContent='( ͡° ͜ʖ ͡°)';
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(), 2400);
+    });
+  })();
+
+  // Boss arena tooltip (non-blocking)
+  (function(){
+    const arena = document.getElementById('arena');
+    arena.addEventListener('mouseenter', ()=>{
+      const t = document.createElement('div');
+      t.className='sticker';
+      t.style.left='50%'; t.style.top='10%'; t.style.transform='translateX(-50%)';
+      t.style.fontSize='14px'; t.textContent='Click UNLEASH to fight the boss!';
+      t.id='bossTip';
+      document.body.appendChild(t);
+    });
+    arena.addEventListener('mouseleave', ()=>{
+      const t = document.getElementById('bossTip');
+      if(t) t.remove();
+    });
+  })();
+
+  // Small easter egg: press 'J' to shower extra confetti
+  document.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase()==='j'){
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      for(let i=0;i<200;i++){
+        ctx.fillStyle = ['#ff2d95','#ffd100','#00ffd5','#7b2dff'][Math.floor(Math.random()*4)];
+        ctx.fillRect(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 4+Math.random()*8, 4+Math.random()*8);
+      }
+    }
+  });
+
+  // Initialize canvases
+  window.addEventListener('load', ()=>{
+    fitCanvas('confetti');
+    fitCanvas('grain');
+  });
+  window.addEventListener('resize', ()=>{
+    fitCanvas('confetti');
+    fitCanvas('grain');
+  });
+
+  // Prevent gesture zoom interference
+  document.addEventListener('gesturestart', (e)=>e.preventDefault());
+</script>
+</body>
+</html>
