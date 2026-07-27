@@ -14,7 +14,6 @@
     --glass: rgba(255,255,255,0.04);
   }
   html,body{height:100%;margin:0;background:#000;font-family:Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;color:#fff;overflow:auto;}
-  /* Stage fills viewport but can grow taller to allow scrolling */
   .stage{
     position:relative;
     width:100vw;
@@ -23,10 +22,10 @@
     background: radial-gradient(1200px 600px at 10% 10%, rgba(255,45,149,0.06), transparent 10%),
                 linear-gradient(120deg, var(--bg1), var(--bg2));
     overflow:visible;
-    padding-bottom:140px; /* spare space at bottom for scrolling */
+    padding-bottom:140px;
   }
 
-  /* Top nav */
+  /* Top nav (desktop default) */
   nav{
     position:fixed;
     left:50%;
@@ -69,7 +68,35 @@
   .navlinks a:hover{transform:translateY(-4px) rotate(-1deg) scale(1.02);color:var(--accent1);text-shadow:0 0 8px rgba(255,45,149,0.6);}
   .fake-btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001;padding:8px 14px;border-radius:999px;font-weight:900;cursor:pointer;border:2px solid rgba(255,255,255,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.6);}
 
-  /* Main grid to avoid overlaps and allow vertical growth */
+  /* Burger button (controlled by JS) */
+  .burger{
+    display:none;
+    width:44px;height:44px;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,0.5);
+  }
+  .burger .bar{width:20px;height:2px;background:#fff;margin:3px 0;border-radius:2px;display:block;transition:all .18s ease;}
+
+  /* Mobile menu overlay (hidden by default; toggled by JS) */
+  .mobile-menu{
+    position:fixed;
+    top:72px;
+    right:18px;
+    width:260px;
+    max-width:80vw;
+    background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.85));
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.7);
+    border:1px solid rgba(255,255,255,0.04);
+    z-index:10001;
+    display:none;
+    flex-direction:column;
+    gap:8px;
+  }
+  .mobile-menu a{color:#fff;text-decoration:none;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:800;}
+
+  /* Main grid */
   .container{
     position:relative;
     left:50%;
@@ -84,39 +111,12 @@
     align-items:start;
     z-index:10;
     pointer-events:none;
-    margin-bottom:40px; /* extra spare space */
+    margin-bottom:40px;
   }
 
-  /* Left column: hero and wishes stacked */
-  .left{
-    grid-column:1 / 2;
-    grid-row:1 / 3;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    pointer-events:none;
-  }
-  .hero{
-    pointer-events:auto;
-    padding:28px;
-    border-radius:14px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
-    border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    min-height:260px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    gap:12px;
-  }
-  .headline{
-    font-size:clamp(36px,6vw,84px);
-    line-height:0.9;font-weight:900;letter-spacing:-2px;text-transform:uppercase;
-    background: linear-gradient(90deg, #fff, #ffd1ff 30%, #00ffd5 60%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));transform: skewX(-6deg);
-    animation:glow 2.6s ease-in-out infinite alternate;
-  }
+  .left{grid-column:1 / 2;grid-row:1 / 3;display:flex;flex-direction:column;gap:20px;pointer-events:none;}
+  .hero{pointer-events:auto;padding:28px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));border:1px solid rgba(255,255,255,0.03);box-shadow: 0 20px 60px rgba(0,0,0,0.6);min-height:260px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;}
+  .headline{font-size:clamp(36px,6vw,84px);line-height:0.9;font-weight:900;letter-spacing:-2px;text-transform:uppercase;background: linear-gradient(90deg, #fff, #ffd1ff 30%, #00ffd5 60%);-webkit-background-clip:text;background-clip:text;color:transparent;filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));transform: skewX(-6deg);animation:glow 2.6s ease-in-out infinite alternate;}
   @keyframes glow{from{text-shadow:0 0 8px rgba(255,45,149,0.6),0 0 40px rgba(0,255,213,0.08);}to{text-shadow:0 0 18px rgba(249,255,0,0.9),0 0 80px rgba(255,45,149,0.18);}}
   .sub{font-size:clamp(12px,1.6vw,20px);font-weight:800;color:#fff;text-shadow:0 6px 18px rgba(0,0,0,0.6);}
 
@@ -131,45 +131,22 @@
   .hero .tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap;pointer-events:none;}
   .hero .tag{display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:800;}
 
-  .wishes{
-    pointer-events:auto;
-    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02));
-    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);overflow:auto;
-    min-height:140px;
-  }
+  .wishes{pointer-events:auto;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);overflow:auto;min-height:140px;}
   .wish{display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:8px;margin-bottom:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02);}
 
-  /* Right column: stats and boss stacked */
-  .right{
-    grid-column:2 / 3;
-    grid-row:1 / 3;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    align-items:stretch;
-    pointer-events:none;
-  }
-  .stats{
-    pointer-events:auto;
-    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);min-height:180px;
-  }
+  .right{grid-column:2 / 3;grid-row:1 / 3;display:flex;flex-direction:column;gap:20px;align-items:stretch;pointer-events:none;}
+  .stats{pointer-events:auto;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);min-height:180px;}
   .stat-item{display:flex;align-items:center;gap:12px;padding:10px;margin:8px 0;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.03);}
   .stat-badge{width:64px;height:64px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;background:linear-gradient(135deg,var(--accent1),#ffd1ff);color:#001;box-shadow:0 8px 24px rgba(255,45,149,0.12);transform:rotate(-8deg);}
   .stat-text{font-weight:800;font-size:14px;}
   .stat-num{font-size:20px;color:var(--neon);font-weight:900;letter-spacing:1px;}
 
-  .boss{
-    pointer-events:auto;
-    padding:18px;border-radius:16px;background:linear-gradient(135deg, rgba(255,45,149,0.06), rgba(0,255,213,0.03));
-    border:2px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;
-    min-height:220px;
-  }
+  .boss{pointer-events:auto;padding:18px;border-radius:16px;background:linear-gradient(135deg, rgba(255,45,149,0.06), rgba(0,255,213,0.03));border:2px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;}
   .boss .arena{width:92%;height:60%;border-radius:12px;background:linear-gradient(180deg,#000,#111);border:2px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
   .boss .boss-entity{width:48%;height:72%;min-width:120px;min-height:120px;border-radius:12px;background:conic-gradient(from 120deg,#ff2d95,#ffd100,#00ffd5,#7b2dff);animation:bossPulse 1.6s infinite ease-in-out;display:flex;align-items:center;justify-content:center;font-weight:900;color:#001;font-size:clamp(16px,2.6vw,28px);box-shadow:0 12px 40px rgba(255,45,149,0.18);}
   @keyframes bossPulse{0%{transform:scale(0.92) rotate(-6deg);}50%{transform:scale(1.06) rotate(6deg);}100%{transform:scale(0.92) rotate(-6deg);}}
 
-  /* Decorative elements (non-interfering) */
+  /* Decorative elements */
   .decor{position:absolute;pointer-events:none;z-index:2;opacity:0.9;}
   .pixel{position:absolute;width:28px;height:28px;background:transparent;z-index:2;pointer-events:none;}
   .pixel.px1{left:8%;top:6%;box-shadow:0 0 0 0 #ff2d95, 28px 0 0 0 #ffd100, 56px 0 0 0 #00ffd5, 0 28px 0 0 #7b2dff, 28px 28px 0 0 #fff;}
@@ -183,7 +160,7 @@
   @keyframes slide1{0%{transform:translateX(0) rotate(-12deg) skewX(-18deg);}50%{transform:translateX(2vw) rotate(-10deg) skewX(-18deg);}100%{transform:translateX(0) rotate(-12deg) skewX(-18deg);}}
   @keyframes slide2{0%{transform:translateX(0) rotate(8deg) skewX(-12deg);}50%{transform:translateX(-2.2vw) rotate(10deg) skewX(-12deg);}100%{transform:translateX(0) rotate(8deg) skewX(-12deg);}}
 
-  /* Confetti canvas overlay */
+  /* Confetti and grain canvases (fixed so they don't overlap content) */
   canvas#confetti{position:fixed;left:0;top:0;width:100%;height:100%;z-index:4;pointer-events:none;}
   canvas#grain{position:fixed;left:0;top:0;width:100%;height:100%;z-index:1;opacity:0.06;pointer-events:none;}
 
@@ -191,36 +168,42 @@
   .tip{position:relative;display:inline-block;cursor:help;pointer-events:auto;}
   .tip:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 10px);background:rgba(0,0,0,0.9);color:#fff;padding:8px 10px;border-radius:8px;font-size:12px;white-space:nowrap;z-index:9999;box-shadow:0 8px 30px rgba(0,0,0,0.6);}
 
-  /* Scrollbar for wishes */
   .wishes::-webkit-scrollbar{height:8px;width:8px;}
   .wishes::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:8px;}
 
-  /* Ensure interactive elements show pointer */
   button, .fake-btn, .tip, nav a {pointer-events:auto;}
-
-  /* Responsive adjustments for narrow viewports */
-  @media (max-width:980px){
-    .container{grid-template-columns: 1fr;grid-template-rows:auto auto auto;gap:14px;top:76px;}
-    .right{grid-column:1 / 2;grid-row:2 / 3;flex-direction:column;}
-    .left{grid-column:1 / 2;grid-row:1 / 2;}
-    .hero{min-height:220px;}
-    .boss{min-height:200px;}
-    .wishes{height:180px;}
-  }
 </style>
 </head>
 <body>
   <div class="stage" id="stage" role="main" aria-label="Birthday stage for Jürgen">
-    <nav>
+    <nav id="topnav" aria-label="Main navigation">
       <div class="logo"><span class="spark">✨</span> JÜRGEN 31</div>
-      <div class="navlinks">
+
+      <!-- Desktop links container -->
+      <div class="navlinks" id="navlinks">
         <a href="#hero" data-target="hero">Hero</a>
         <a href="#stats" data-target="stats">Stats</a>
         <a href="#wishes" data-target="wishes">Wishes</a>
         <a href="#boss" data-target="boss">Final Boss</a>
         <button class="fake-btn tip" data-tip="Totally fake, very dramatic" id="surpriseBtn">UNLEASH</button>
       </div>
+
+      <!-- Burger button (JS toggles display) -->
+      <div class="burger" id="burger" aria-label="Open menu" role="button" tabindex="0" title="Menu" aria-expanded="false">
+        <span class="bar" style="transform:translateY(-6px)"></span>
+        <span class="bar" style="transform:translateY(0)"></span>
+        <span class="bar" style="transform:translateY(6px)"></span>
+      </div>
     </nav>
+
+    <!-- Mobile menu overlay (JS toggles) -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="#hero" data-target="hero">Hero</a>
+      <a href="#stats" data-target="stats">Stats</a>
+      <a href="#wishes" data-target="wishes">Wishes</a>
+      <a href="#boss" data-target="boss">Final Boss</a>
+      <button class="fake-btn" id="mobileUnleash">UNLEASH</button>
+    </div>
 
     <!-- Decorative non-interfering elements -->
     <div class="ribbon r1 decor"></div>
@@ -327,12 +310,11 @@
       </div>
     </div>
 
-    <!-- bottom spacer to ensure spare space when content is tall -->
     <div style="height:120px;pointer-events:none;"></div>
   </div>
 
 <script>
-  // Fit canvases to viewport with DPR handling
+  // Helper: fit canvas to viewport with DPR
   function fitCanvas(id){
     const c = document.getElementById(id);
     if(!c) return null;
@@ -405,17 +387,16 @@
     });
   })();
 
-  // Grain noise (subtle)
+  // Grain noise
   (function(){
     const canvas = document.getElementById('grain');
-    const ctx = fitCanvas('grain');
     function noise(){
-      const ctx2 = fitCanvas('grain');
-      if(!ctx2) return;
-      ctx2.clearRect(0,0,canvas.width,canvas.height);
+      const ctx = fitCanvas('grain');
+      if(!ctx) return;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
       for(let i=0;i<800;i++){
-        ctx2.fillStyle = 'rgba(255,255,255,' + (Math.random()*0.06) + ')';
-        ctx2.fillRect(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 1,1);
+        ctx.fillStyle = 'rgba(255,255,255,' + (Math.random()*0.06) + ')';
+        ctx.fillRect(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 1,1);
       }
       requestAnimationFrame(noise);
     }
@@ -446,7 +427,7 @@
   })();
 
   // Smooth scrolling for nav links
-  document.querySelectorAll('nav a[data-target]').forEach(a=>{
+  document.querySelectorAll('nav a[data-target], .mobile-menu a[data-target]').forEach(a=>{
     a.addEventListener('click', (e)=>{
       e.preventDefault();
       const id = a.getAttribute('data-target');
@@ -455,6 +436,8 @@
         el.scrollIntoView({behavior:'smooth', block:'center'});
         el.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:420, easing:'ease-out'});
       }
+      // If mobile menu open, close it
+      closeMobileMenu();
     });
   });
 
@@ -462,6 +445,7 @@
   (function(){
     const boss = document.getElementById('bossEntity');
     const unleash = document.getElementById('surpriseBtn');
+    const mobileUnleash = document.getElementById('mobileUnleash');
     const memeBtn = document.getElementById('memeBtn');
     let unleashed = false;
     function colorCycle(){
@@ -507,7 +491,7 @@
       step();
     }
 
-    unleash.addEventListener('click', ()=>{
+    function unleashAction(){
       if(unleashed) return;
       unleashed = true;
       document.querySelectorAll('.fake-btn').forEach(s=>s.animate([{transform:'scale(1)'},{transform:'scale(1.12) rotate(8deg)'},{transform:'scale(1)'}],{duration:900,iterations:3}));
@@ -527,17 +511,97 @@
       overlay.textContent = 'UNLEASHED: ULTIMATE DANKNESS ACTIVATED';
       document.body.appendChild(overlay);
       setTimeout(()=>overlay.remove(), 4200);
-    });
+    }
+
+    unleash.addEventListener('click', unleashAction);
+    if(mobileUnleash) mobileUnleash.addEventListener('click', unleashAction);
 
     memeBtn.addEventListener('click', ()=>{
       const hero = document.querySelector('.hero');
       hero.animate([{filter:'hue-rotate(0deg)'},{filter:'hue-rotate(180deg)'},{filter:'hue-rotate(0deg)'}],{duration:1200,iterations:2});
       const s = document.createElement('div');
-      s.className='sticker';
+      s.className = 'sticker';
       s.style.left=(window.innerWidth*0.42)+'px'; s.style.top=(window.innerHeight*0.28)+'px'; s.style.fontSize='36px';
       s.textContent='( ͡° ͜ʖ ͡°)';
       document.body.appendChild(s);
       setTimeout(()=>s.remove(), 2400);
+    });
+  })();
+
+  // Mobile menu logic WITHOUT CSS media queries
+  (function(){
+    const burger = document.getElementById('burger');
+    const navlinks = document.getElementById('navlinks');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let mobileMode = false;
+    let menuOpen = false;
+
+    function enableMobileMode(){
+      if(mobileMode) return;
+      mobileMode = true;
+      // hide desktop navlinks, show burger
+      navlinks.style.display = 'none';
+      burger.style.display = 'flex';
+      burger.setAttribute('aria-expanded','false');
+      mobileMenu.style.display = 'none';
+      mobileMenu.setAttribute('aria-hidden','true');
+    }
+
+    function disableMobileMode(){
+      if(!mobileMode) return;
+      mobileMode = false;
+      navlinks.style.display = '';
+      burger.style.display = 'none';
+      mobileMenu.style.display = 'none';
+      mobileMenu.setAttribute('aria-hidden','true');
+      menuOpen = false;
+    }
+
+    function openMobileMenu(){
+      mobileMenu.style.display = 'flex';
+      mobileMenu.setAttribute('aria-hidden','false');
+      burger.setAttribute('aria-expanded','true');
+      menuOpen = true;
+    }
+    function closeMobileMenu(){
+      mobileMenu.style.display = 'none';
+      mobileMenu.setAttribute('aria-hidden','true');
+      burger.setAttribute('aria-expanded','false');
+      menuOpen = false;
+    }
+
+    // Expose close for other handlers
+    window.closeMobileMenu = closeMobileMenu;
+
+    // Toggle on burger click
+    burger.addEventListener('click', ()=>{
+      if(menuOpen) closeMobileMenu(); else openMobileMenu();
+    });
+    burger.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); burger.click(); }
+    });
+
+    // Decide mode based on width (no CSS media queries)
+    function evaluateMode(){
+      const w = window.innerWidth;
+      // threshold for mobile behavior
+      if(w <= 720){
+        enableMobileMode();
+      } else {
+        disableMobileMode();
+      }
+    }
+    // initial
+    evaluateMode();
+    // update on resize
+    window.addEventListener('resize', evaluateMode);
+    // close menu when clicking outside
+    document.addEventListener('click', (e)=>{
+      if(!mobileMode) return;
+      if(menuOpen){
+        const inside = mobileMenu.contains(e.target) || burger.contains(e.target);
+        if(!inside) closeMobileMenu();
+      }
     });
   })();
 
@@ -558,7 +622,7 @@
     });
   })();
 
-  // Small easter egg: press 'J' to shower extra confetti
+  // Easter egg: press 'J' to shower extra confetti
   document.addEventListener('keydown', (e)=>{
     if(e.key.toLowerCase()==='j'){
       const canvas = document.getElementById('confetti');
