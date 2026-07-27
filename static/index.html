@@ -14,7 +14,6 @@
     --glass: rgba(255,255,255,0.04);
   }
   html,body{height:100%;margin:0;background:#000;font-family:Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;color:#fff;overflow:auto;}
-  /* Stage fills viewport but can grow taller to allow scrolling */
   .stage{
     position:relative;
     width:100vw;
@@ -23,7 +22,7 @@
     background: radial-gradient(1200px 600px at 10% 10%, rgba(255,45,149,0.06), transparent 10%),
                 linear-gradient(120deg, var(--bg1), var(--bg2));
     overflow:visible;
-    padding-bottom:160px; /* spare space at bottom for scrolling */
+    padding-bottom:160px;
   }
 
   /* Top nav */
@@ -69,7 +68,7 @@
   .navlinks a:hover{transform:translateY(-4px) rotate(-1deg) scale(1.02);color:var(--accent1);text-shadow:0 0 8px rgba(255,45,149,0.6);}
   .fake-btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001;padding:8px 14px;border-radius:999px;font-weight:900;cursor:pointer;border:2px solid rgba(255,255,255,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.6);}
 
-  /* Burger button (controlled by JS) */
+  /* Burger button */
   .burger{
     display:none;
     width:44px;height:44px;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
@@ -77,10 +76,12 @@
     box-shadow:0 8px 20px rgba(0,0,0,0.5);
     display:flex;
     flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:6px;
     gap:4px;
-    padding:8px;
   }
-  .burger .bar{width:20px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .18s ease;transform-origin:center;}
+  .burger .bar{width:20px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .18s ease;margin:0;}
 
   /* Mobile menu overlay (hidden by default; toggled by JS) */
   .mobile-menu{
@@ -102,7 +103,7 @@
   }
   .mobile-menu a{color:#fff;text-decoration:none;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:800;display:block;}
 
-  /* Main grid to avoid overlaps and allow vertical growth */
+  /* Main grid */
   .container{
     position:relative;
     left:50%;
@@ -117,39 +118,12 @@
     align-items:start;
     z-index:10;
     pointer-events:none;
-    margin-bottom:40px; /* extra spare space */
+    margin-bottom:40px;
   }
 
-  /* Left column: hero and wishes stacked */
-  .left{
-    grid-column:1 / 2;
-    grid-row:1 / 3;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    pointer-events:none;
-  }
-  .hero{
-    pointer-events:auto;
-    padding:28px;
-    border-radius:14px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
-    border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    min-height:260px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    gap:12px;
-  }
-  .headline{
-    font-size:clamp(36px,6vw,84px);
-    line-height:0.9;font-weight:900;letter-spacing:-2px;text-transform:uppercase;
-    background: linear-gradient(90deg, #fff, #ffd1ff 30%, #00ffd5 60%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));transform: skewX(-6deg);
-    animation:glow 2.6s ease-in-out infinite alternate;
-  }
+  .left{grid-column:1 / 2;grid-row:1 / 3;display:flex;flex-direction:column;gap:20px;pointer-events:none;}
+  .hero{pointer-events:auto;padding:28px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));border:1px solid rgba(255,255,255,0.03);box-shadow: 0 20px 60px rgba(0,0,0,0.6);min-height:260px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;}
+  .headline{font-size:clamp(36px,6vw,84px);line-height:0.9;font-weight:900;letter-spacing:-2px;text-transform:uppercase;background: linear-gradient(90deg, #fff, #ffd1ff 30%, #00ffd5 60%);-webkit-background-clip:text;background-clip:text;color:transparent;filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));transform: skewX(-6deg);animation:glow 2.6s ease-in-out infinite alternate;}
   @keyframes glow{from{text-shadow:0 0 8px rgba(255,45,149,0.6),0 0 40px rgba(0,255,213,0.08);}to{text-shadow:0 0 18px rgba(249,255,0,0.9),0 0 80px rgba(255,45,149,0.18);}}
   .sub{font-size:clamp(12px,1.6vw,20px);font-weight:800;color:#fff;text-shadow:0 6px 18px rgba(0,0,0,0.6);}
 
@@ -164,45 +138,22 @@
   .hero .tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap;pointer-events:none;}
   .hero .tag{display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:800;}
 
-  .wishes{
-    pointer-events:auto;
-    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02));
-    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);overflow:auto;
-    min-height:140px;
-  }
+  .wishes{pointer-events:auto;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);overflow:auto;min-height:140px;}
   .wish{display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:8px;margin-bottom:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02);}
 
-  /* Right column: stats and boss stacked */
-  .right{
-    grid-column:2 / 3;
-    grid-row:1 / 3;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    align-items:stretch;
-    pointer-events:none;
-  }
-  .stats{
-    pointer-events:auto;
-    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);min-height:180px;
-  }
+  .right{grid-column:2 / 3;grid-row:1 / 3;display:flex;flex-direction:column;gap:20px;align-items:stretch;pointer-events:none;}
+  .stats{pointer-events:auto;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);min-height:180px;}
   .stat-item{display:flex;align-items:center;gap:12px;padding:10px;margin:8px 0;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.03);}
   .stat-badge{width:64px;height:64px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;background:linear-gradient(135deg,var(--accent1),#ffd1ff);color:#001;box-shadow:0 8px 24px rgba(255,45,149,0.12);transform:rotate(-8deg);}
   .stat-text{font-weight:800;font-size:14px;}
   .stat-num{font-size:20px;color:var(--neon);font-weight:900;letter-spacing:1px;}
 
-  .boss{
-    pointer-events:auto;
-    padding:18px;border-radius:16px;background:linear-gradient(135deg, rgba(255,45,149,0.06), rgba(0,255,213,0.03));
-    border:2px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;
-    min-height:220px;
-  }
+  .boss{pointer-events:auto;padding:18px;border-radius:16px;background:linear-gradient(135deg, rgba(255,45,149,0.06), rgba(0,255,213,0.03));border:2px solid rgba(255,255,255,0.04);box-shadow:0 20px 60px rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;}
   .boss .arena{width:92%;height:60%;border-radius:12px;background:linear-gradient(180deg,#000,#111);border:2px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
   .boss .boss-entity{width:48%;height:72%;min-width:120px;min-height:120px;border-radius:12px;background:conic-gradient(from 120deg,#ff2d95,#ffd100,#00ffd5,#7b2dff);animation:bossPulse 1.6s infinite ease-in-out;display:flex;align-items:center;justify-content:center;font-weight:900;color:#001;font-size:clamp(16px,2.6vw,28px);box-shadow:0 12px 40px rgba(255,45,149,0.18);}
   @keyframes bossPulse{0%{transform:scale(0.92) rotate(-6deg);}50%{transform:scale(1.06) rotate(6deg);}100%{transform:scale(0.92) rotate(-6deg);}}
 
-  /* Decorative elements made fixed so background doesn't move when page scrolls */
+  /* Decorative elements fixed so background doesn't move when page scrolls */
   .decor{position:fixed;pointer-events:none;z-index:2;opacity:0.9;}
   .pixel{position:fixed;width:28px;height:28px;background:transparent;z-index:2;pointer-events:none;}
   .pixel.px1{left:8%;top:6%;box-shadow:0 0 0 0 #ff2d95, 28px 0 0 0 #ffd100, 56px 0 0 0 #00ffd5, 0 28px 0 0 #7b2dff, 28px 28px 0 0 #fff;}
@@ -220,7 +171,7 @@
   @keyframes slide1{0%{transform:translateX(0) rotate(-12deg) skewX(-18deg);}50%{transform:translateX(2vw) rotate(-10deg) skewX(-18deg);}100%{transform:translateX(0) rotate(-12deg) skewX(-18deg);}}
   @keyframes slide2{0%{transform:translateX(0) rotate(8deg) skewX(-12deg);}50%{transform:translateX(-2.2vw) rotate(10deg) skewX(-12deg);}100%{transform:translateX(0) rotate(8deg) skewX(-12deg);}}
 
-  /* Confetti canvas overlay fixed so it doesn't move with content */
+  /* Confetti and grain canvases fixed */
   canvas#confetti{position:fixed;left:0;top:0;width:100%;height:100%;z-index:4;pointer-events:none;}
   canvas#grain{position:fixed;left:0;top:0;width:100%;height:100%;z-index:1;opacity:0.06;pointer-events:none;}
 
@@ -231,7 +182,6 @@
   .wishes::-webkit-scrollbar{height:8px;width:8px;}
   .wishes::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:8px;}
 
-  /* Ensure interactive elements show pointer */
   button, .fake-btn, .tip, nav a {pointer-events:auto;}
 
   /* Responsive adjustments for narrow viewports (JS also toggles burger) */
@@ -242,6 +192,43 @@
     .hero{min-height:220px;}
     .boss{min-height:200px;}
     .wishes{height:180px;}
+  }
+
+  /* Popup style: visible, high z-index, but clicks pass through */
+  .popup {
+    position:fixed;
+    left:50%;
+    top:18%;
+    transform:translateX(-50%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.92), rgba(10,10,10,0.86));
+    color:#fff;
+    padding:14px 18px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(255,45,149,0.06);
+    z-index:200000 !important;
+    font-weight:800;
+    font-size:15px;
+    pointer-events:none; /* clicks go through */
+    max-width:92vw;
+    text-align:center;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Small helper for ephemeral hint near boss */
+  .hint {
+    position:fixed;
+    left:50%;
+    top:10%;
+    transform:translateX(-50%);
+    background: rgba(0,0,0,0.9);
+    color:#fff;
+    padding:8px 12px;
+    border-radius:10px;
+    z-index:200000 !important;
+    pointer-events:none;
+    font-weight:800;
+    box-shadow:0 12px 40px rgba(0,0,0,0.7);
   }
 </style>
 </head>
@@ -259,7 +246,7 @@
         <button class="fake-btn tip" data-tip="Totally fake, very dramatic" id="surpriseBtn">UNLEASH</button>
       </div>
 
-      <!-- Burger button (JS toggles display) -->
+      <!-- Burger button -->
       <div class="burger" id="burger" aria-label="Open menu" role="button" tabindex="0" title="Menu" aria-expanded="false">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -276,7 +263,7 @@
       <button class="fake-btn" id="mobileUnleash">UNLEASH</button>
     </div>
 
-    <!-- Decorative non-interfering elements (fixed so they don't scroll with content) -->
+    <!-- Decorative fixed elements -->
     <div class="ribbon r1 decor"></div>
     <div class="ribbon r2 decor"></div>
     <div class="pixel px1 decor"></div>
@@ -381,12 +368,11 @@
       </div>
     </div>
 
-    <!-- bottom spacer to ensure spare space when content is tall -->
     <div style="height:120px;pointer-events:none;"></div>
   </div>
 
 <script>
-  // Fit canvases to viewport with DPR handling
+  // Fit canvas helper
   function fitCanvas(id){
     const c = document.getElementById(id);
     if(!c) return null;
@@ -402,7 +388,7 @@
     return ctx;
   }
 
-  // Confetti animation (responsive)
+  // Confetti animation
   (function(){
     const canvas = document.getElementById('confetti');
     let ctx = fitCanvas('confetti');
@@ -459,7 +445,7 @@
     });
   })();
 
-  // Grain noise (subtle)
+  // Grain noise
   (function(){
     const canvas = document.getElementById('grain');
     function noise(){
@@ -505,14 +491,29 @@
       const id = a.getAttribute('data-target');
       const el = document.getElementById(id);
       if(el){
-        // scroll to the widget; background is fixed so it won't move
         el.scrollIntoView({behavior:'smooth', block:'center'});
         el.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:420, easing:'ease-out'});
       }
-      // If mobile menu open, close it
       closeMobileMenu();
     });
   });
+
+  // Popup utility: creates readable popup in front but clicks go through
+  function showPopup(message, duration = 3800){
+    const p = document.createElement('div');
+    p.className = 'popup';
+    p.setAttribute('role','status');
+    p.style.pointerEvents = 'none'; // ensure clicks pass through
+    p.innerHTML = message;
+    document.body.appendChild(p);
+    // fade in/out
+    p.animate([{opacity:0, transform:'translateX(-50%) translateY(-6px)'},{opacity:1, transform:'translateX(-50%) translateY(0)'}],{duration:260, fill:'forwards'});
+    setTimeout(()=>{
+      p.animate([{opacity:1, transform:'translateX(-50%) translateY(0)'},{opacity:0, transform:'translateX(-50%) translateY(-6px)'}],{duration:260, fill:'forwards'});
+      setTimeout(()=>p.remove(), 280);
+    }, duration);
+    return p;
+  }
 
   // Boss interactions
   (function(){
@@ -570,20 +571,8 @@
       document.querySelectorAll('.fake-btn').forEach(s=>s.animate([{transform:'scale(1)'},{transform:'scale(1.12) rotate(8deg)'},{transform:'scale(1)'}],{duration:900,iterations:3}));
       boss.animate([{transform:'scale(1)'},{transform:'scale(1.6) rotate(12deg)'},{transform:'scale(1)'}],{duration:900, easing:'cubic-bezier(.2,.8,.2,1)'});
       burst(window.innerWidth/2, window.innerHeight/2);
-      const overlay = document.createElement('div');
-      overlay.style.position='fixed';
-      overlay.style.left='50%';
-      overlay.style.top='50%';
-      overlay.style.transform='translate(-50%,-50%)';
-      overlay.style.padding='18px 28px';
-      overlay.style.background='linear-gradient(90deg,#ff2d95,#00ffd5)';
-      overlay.style.color='#001';
-      overlay.style.fontWeight='900';
-      overlay.style.borderRadius='12px';
-      overlay.style.zIndex=99999;
-      overlay.textContent = 'UNLEASHED: ULTIMATE DANKNESS ACTIVATED';
-      document.body.appendChild(overlay);
-      setTimeout(()=>overlay.remove(), 4200);
+      // show readable popup in front, but clicks pass through
+      showPopup('UNLEASHED: ULTIMATE DANKNESS ACTIVATED', 4200);
     }
 
     unleash.addEventListener('click', unleashAction);
@@ -592,16 +581,20 @@
     memeBtn.addEventListener('click', ()=>{
       const hero = document.querySelector('.hero');
       hero.animate([{filter:'hue-rotate(0deg)'},{filter:'hue-rotate(180deg)'},{filter:'hue-rotate(0deg)'}],{duration:1200,iterations:2});
+      // readable ephemeral sticker (pointer-events none)
       const s = document.createElement('div');
-      s.className = 'sticker';
-      s.style.left=(window.innerWidth*0.42)+'px'; s.style.top=(window.innerHeight*0.28)+'px'; s.style.fontSize='36px';
-      s.textContent='( ͡° ͜ʖ ͡°)';
+      s.className = 'popup';
+      s.style.top = '28%';
+      s.style.left = '42%';
+      s.style.transform = 'translateX(-50%)';
+      s.style.pointerEvents = 'none';
+      s.textContent = '( ͡° ͜ʖ ͡°) MEME DEPLOYED';
       document.body.appendChild(s);
-      setTimeout(()=>s.remove(), 2400);
+      setTimeout(()=>{ s.animate([{opacity:1},{opacity:0}],{duration:260}); setTimeout(()=>s.remove(),300); }, 2200);
     });
   })();
 
-  // Mobile menu logic WITHOUT CSS media queries (JS controls burger visibility)
+  // Mobile menu logic (JS controls burger visibility)
   (function(){
     const burger = document.getElementById('burger');
     const navlinks = document.getElementById('navlinks');
@@ -612,7 +605,6 @@
     function enableMobileMode(){
       if(mobileMode) return;
       mobileMode = true;
-      // hide desktop navlinks, show burger
       navlinks.style.display = 'none';
       burger.style.display = 'flex';
       burger.setAttribute('aria-expanded','false');
@@ -635,9 +627,15 @@
       mobileMenu.setAttribute('aria-hidden','false');
       burger.setAttribute('aria-expanded','true');
       menuOpen = true;
-      // keep background fixed (decor are fixed), but allow menu to scroll if tall
       mobileMenu.style.maxHeight = (window.innerHeight - 96) + 'px';
       mobileMenu.style.overflow = 'auto';
+      // show a hint that is readable but doesn't block clicks
+      const hint = document.createElement('div');
+      hint.className = 'hint';
+      hint.id = 'mobileHint';
+      hint.textContent = 'Tap an item to jump — menu is scrollable';
+      document.body.appendChild(hint);
+      setTimeout(()=>{ const h = document.getElementById('mobileHint'); if(h) h.remove(); }, 2600);
     }
     function closeMobileMenu(){
       mobileMenu.style.display = 'none';
@@ -646,10 +644,8 @@
       menuOpen = false;
     }
 
-    // Expose close for other handlers
     window.closeMobileMenu = closeMobileMenu;
 
-    // Toggle on burger click
     burger.addEventListener('click', ()=>{
       if(menuOpen) closeMobileMenu(); else openMobileMenu();
     });
@@ -657,21 +653,16 @@
       if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); burger.click(); }
     });
 
-    // Decide mode based on width (no CSS media queries required)
     function evaluateMode(){
       const w = window.innerWidth;
-      // threshold for mobile behavior
       if(w <= 720){
         enableMobileMode();
       } else {
         disableMobileMode();
       }
     }
-    // initial
     evaluateMode();
-    // update on resize
     window.addEventListener('resize', evaluateMode);
-    // close menu when clicking outside
     document.addEventListener('click', (e)=>{
       if(!mobileMode) return;
       if(menuOpen){
@@ -681,15 +672,14 @@
     });
   })();
 
-  // Boss arena tooltip (non-blocking)
+  // Boss arena tooltip (readable, pointer-events none)
   (function(){
     const arena = document.getElementById('arena');
     arena.addEventListener('mouseenter', ()=>{
       const t = document.createElement('div');
-      t.className='sticker';
-      t.style.left='50%'; t.style.top='10%'; t.style.transform='translateX(-50%)';
-      t.style.fontSize='14px'; t.textContent='Click UNLEASH to fight the boss!';
+      t.className='hint';
       t.id='bossTip';
+      t.textContent='Click UNLEASH to fight the boss!';
       document.body.appendChild(t);
     });
     arena.addEventListener('mouseleave', ()=>{
@@ -707,6 +697,7 @@
         ctx.fillStyle = ['#ff2d95','#ffd100','#00ffd5','#7b2dff'][Math.floor(Math.random()*4)];
         ctx.fillRect(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 4+Math.random()*8, 4+Math.random()*8);
       }
+      showPopup('Confetti shower! (press J again)', 1800);
     }
   });
 
